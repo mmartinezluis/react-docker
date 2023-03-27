@@ -27,3 +27,8 @@ CMD ["npm", "start"]
 # -v ${PWD}:/app mounts the code into the container at "/app"
 # -p 3001:3000 exposes port 3000 to other Docker containers on the same network (for inter-container communication) and port 3001 to the host.
 # -e CHOKIDAR_USEPOLLING=true enables a polling mechanism via chokidar (which wraps fs.watch, fs.watchFile, and fsevents) so that hot-reloading will work. 
+
+
+# Check the files in the container
+# docker exec -it <container_id> sh
+# ls -la
