@@ -1,0 +1,17 @@
+version: '1.0'
+
+services:
+
+  react-docker:
+    container_name: react-docker
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - '.:/app'
+      - '/app/node_modules'
+    ports:
+      - 3001:3000
+    environment:
+      - CHODIKAR_USEPOLLING=true
+    
