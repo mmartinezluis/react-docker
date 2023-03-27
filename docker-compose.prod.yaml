@@ -1,0 +1,10 @@
+version: '1.0'
+
+services:
+  react-docker-prod:
+    container_name: react-docker-prod
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    ports:
+      - '8787:80'
