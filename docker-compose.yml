@@ -14,4 +14,7 @@ services:
       - 3001:3000
     environment:
       - CHODIKAR_USEPOLLING=true
+
+# start the container:
+# docker-compose up -d --build
     
