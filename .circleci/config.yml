@@ -1,3 +1,38 @@
+# # Deployment using Docker
+# version: 2
+#   jobs: 
+#     build:
+#       docker:
+#         - image: cimg/node:16.13.2
+#       steps:
+#         - checkout
+#         - run:
+#             name: Setup VirtualEnv
+#             command:  |
+#               echo 'export TAG=0.1.${CRICLE_BUILD_NUM}' >> $BASH_ENV
+#               echo 'export IMAGE_NAME=react-circleci-docker' >> $BASH_ENV
+#               virtualenv react-docker
+#               . react-docker/bin/activate
+#               sudo npm install -g npm
+#               npm install
+#         - setup_remote_docker:
+#             docker_layer_caching: true
+#         - run:
+#             name: Build and push Docker image
+#             command: |
+#               . react-docker/bin/activate
+#               docker build -t username/$IMAGE_NAME:$TAG
+#               echo $DOCKER_PWD | docker login -u $DOCKER_LOGIN --password-stdin
+#               dockr push username/$IMAGE_NAME:$TAG
+#         -run:
+#             name: Deploy app to Netlify
+#             command: ./node_modules/.bin/netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN --prod --dir=build
+
+
+
+
+
+# Deployment pipeline for Netlify
 version: 2.1
 jobs:
   build:
