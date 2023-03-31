@@ -1,67 +1,31 @@
-# # Deployment using Docker
-# version: 2
-#   jobs: 
-#     build:
-#       docker:
-#         - image: cimg/node:16.13.2
-#       steps:
-#         - checkout
-#         - run:
-#             name: Setup VirtualEnv
-#             command:  |
-#               echo 'export TAG=0.1.${CRICLE_BUILD_NUM}' >> $BASH_ENV
-#               echo 'export IMAGE_NAME=react-circleci-docker' >> $BASH_ENV
-#               virtualenv react-docker
-#               . react-docker/bin/activate
-#               sudo npm install -g npm
-#               npm install
-#         - setup_remote_docker:
-#             docker_layer_caching: true
-#         - run:
-#             name: Build and push Docker image
-#             command: |
-#               . react-docker/bin/activate
-#               docker build -t username/$IMAGE_NAME:$TAG
-#               echo $DOCKER_PWD | docker login -u $DOCKER_LOGIN --password-stdin
-#               dockr push username/$IMAGE_NAME:$TAG
-#         -run:
-#             name: Deploy app to Netlify
-#             command: ./node_modules/.bin/netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN --prod --dir=build
-
-
-
-
-
-# Deployment pipeline for Netlify
-version: 2.1
-jobs:
+# Deployment using Dockers
+version: 3
+jobs: 
   build:
-    working_directory: ~/repo
     docker:
       - image: cimg/node:16.13.2
     steps:
       - checkout
       - run:
-          name: Update NPM
-          command: "sudo npm install -g npm"
-      - restore_cache:
-          key: dependency-cache-{{ checksum "package-lock.json" }}
+          name: Setup VirtualEnv
+          command:  |
+            echo 'export TAG=0.1.${CRICLE_BUILD_NUM}' >> $BASH_ENV
+            echo 'export IMAGE_NAME=react-circleci-docker' >> $BASH_ENV
+            virtualenv react-docker
+            . react-docker/bin/activate
+            sudo npm install -g npm
+            npm install
+      - setup_remote_docker:
+          docker_layer_caching: true
       - run:
-          name: Install Dependencies
-          command: npm install
-      - save_cache:
-          key: dependency-cache-{{ checksum "package-lock.json"}}
-          paths:
-            - ./node_modules
-      - run:
-          name: Build React App
-          command: npm run build
-      - save_cache:
-          key: app-build-cache-{{ .Branch }}
-          paths:
-            - ./build
-      - run:
-          name: Deploy to Netlify
+          name: Build and push Docker image
+          command: |
+            . react-docker/bin/activate
+            docker build -t username/$IMAGE_NAME:$TAG
+            echo $DOCKER_PWD | docker login -u $DOCKER_LOGIN --password-stdin
+            dockr push username/$IMAGE_NAME:$TAG
+      -run:
+          name: Deploy app to Netlify
           command: ./node_modules/.bin/netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN --prod --dir=build
 workflows:
   version: 2
@@ -72,3 +36,47 @@ workflows:
           branches:
             only:
               - main
+
+
+
+
+# Deployment pipeline for Netlify
+# version: 2.1
+# jobs:
+#   build:
+#     working_directory: ~/repo
+#     docker:
+#       - image: cimg/node:16.13.2
+#     steps:
+#       - checkout
+#       - run:
+#           name: Update NPM
+#           command: "sudo npm install -g npm"
+#       - restore_cache:
+#           key: dependency-cache-{{ checksum "package-lock.json" }}
+#       - run:
+#           name: Install Dependencies
+#           command: npm install
+#       - save_cache:
+#           key: dependency-cache-{{ checksum "package-lock.json"}}
+#           paths:
+#             - ./node_modules
+#       - run:
+#           name: Build React App
+#           command: npm run build
+#       - save_cache:
+#           key: app-build-cache-{{ .Branch }}
+#           paths:
+#             - ./build
+#       - run:
+#           name: Deploy to Netlify
+#           command: ./node_modules/.bin/netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN --prod --dir=build
+# workflows:
+#   version: 2
+#   build-deploy:
+#     jobs:
+#       - build:
+#         filters:
+#           branches:
+#             only:
+#               - main
