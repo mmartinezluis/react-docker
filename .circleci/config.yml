@@ -12,7 +12,6 @@ jobs:
           command:  |
             echo 'export TAG=0.1.${CRICLE_BUILD_NUM}' >> $BASH_ENV
             echo 'export IMAGE_NAME=react-circleci-docker' >> $BASH_ENV
-            sudo npm install -g npm
       - setup_remote_docker:
           docker_layer_caching: true
       - run:
