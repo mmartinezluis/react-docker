@@ -24,7 +24,7 @@ jobs:
             docker build -t username/$IMAGE_NAME:$TAG
             echo $DOCKER_PWD | docker login -u $DOCKER_LOGIN --password-stdin
             dockr push username/$IMAGE_NAME:$TAG
-      -run:
+      - run:
           name: Deploy app to Netlify
           command: ./node_modules/.bin/netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN --prod --dir=build
 workflows:
