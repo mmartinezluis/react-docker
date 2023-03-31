@@ -11,7 +11,6 @@ jobs:
           command:  |
             echo 'export TAG=0.1.${CRICLE_BUILD_NUM}' >> $BASH_ENV
             echo 'export IMAGE_NAME=react-circleci-docker' >> $BASH_ENV
-            virtualenv react-docker
             . react-docker/bin/activate
             sudo npm install -g npm
             npm install
