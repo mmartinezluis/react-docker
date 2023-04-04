@@ -4,8 +4,8 @@ jobs:
   build:
     workding_directory: /react-circleci-docker
     docker:
-      # - image: cimg/node:16.13.2
-      - image: cimg/node
+      - image: cimg/node:16.13.2
+      # - image: cimg/node
     steps:
       - checkout
       - run:
