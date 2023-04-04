@@ -19,6 +19,18 @@ function App() {
         >
           Learn React
         </a>
+        <button
+          onClick={() => {
+            axios
+              .get("https://google.com")
+              .then((data) => {
+                console.log(data);
+              })
+              .catch((err) => console.log(err));
+          }}
+        >
+          Request Data
+        </button>
       </header>
     </div>
   );
