@@ -22,7 +22,9 @@ function App() {
         <button
           onClick={() => {
             axios
-              .get("https://simstcdstg.net/sign_standards")
+              .get("https://simstcdstg.net/sign_standards", {
+                withCredentials: true,
+              })
               // .get("https://google.com")
               .then((data) => {
                 console.log(data);
