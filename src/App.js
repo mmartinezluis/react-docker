@@ -22,7 +22,8 @@ function App() {
         <button
           onClick={() => {
             axios
-              .get("https://google.com")
+              .get("https://simstcdstg.net/sign_standards")
+              // .get("https://google.com")
               .then((data) => {
                 console.log(data);
               })
